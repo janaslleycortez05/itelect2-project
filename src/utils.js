@@ -32,3 +32,16 @@ export function createTask(taskData) {
     ...taskData
   };
 }
+
+export const tasks = [
+  {
+    id: 1,
+    title: "Assignment 1",
+    completed: false
+  },
+  {
+    id: 2,
+    title: "Assignment 2",
+    completed: true
+  }
+];
