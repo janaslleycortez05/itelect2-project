@@ -19,7 +19,7 @@ export class TaskValidationError extends Error {
     this.name = "TaskValidationError";
   }
 }
-
+// Create a new task
 export function createTask(taskData) {
 
   if (!validateTask(taskData)) {
@@ -32,7 +32,7 @@ export function createTask(taskData) {
     ...taskData
   };
 }
-
+// Sample tasks
 export const tasks = [
   {
     id: 1,
