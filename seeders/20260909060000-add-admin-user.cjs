@@ -1,0 +1,28 @@
+'use strict';
+
+const bcrypt = require('bcryptjs');
+
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    const now = new Date();
+
+    const passwordHash = await bcrypt.hash('admin12345', 10);
+
+    await queryInterface.bulkInsert('Users', [
+      {
+        name: 'Admin User',
+        email: 'admin@example.com',
+        password: passwordHash,
+        role: 'admin',
+        createdAt: now,
+        updatedAt: now
+      }
+    ]);
+  },
+
+  async down(queryInterface, Sequelize) {
+    await queryInterface.bulkDelete('Users', {
+      email: 'admin@example.com'
+    });
+  }
+};
