@@ -1,5 +1,7 @@
 import express from "express";
 import db from "../models/index.cjs";
+import verifyToken from "../middleware/verifyToken.js";
+import requireRole from "../middleware/requireRole.js";
 
 const { Task, User } = db;
 
@@ -16,7 +18,7 @@ router.get("/tasks", async (req, res) => {
 });
 
 // POST task
-router.post("/tasks", async (req, res) => {
+router.post("/tasks", verifyToken, async (req, res) => {
   const task = await Task.create(req.body);
 
   res.status(201).json(task);
@@ -38,7 +40,7 @@ router.get("/tasks/:id", async (req, res) => {
 });
 
 // PUT task
-router.put("/tasks/:id", async (req, res) => {
+router.put("/tasks/:id", verifyToken, async (req, res) => {
   const task = await Task.findByPk(req.params.id);
 
   if (!task) {
@@ -53,7 +55,11 @@ router.put("/tasks/:id", async (req, res) => {
 });
 
 // DELETE task
-router.delete("/tasks/:id", async (req, res) => {
+router.delete(
+"/tasks/:id",
+  verifyToken,
+  requireRole("admin"),
+  async (req, res) => {
   const task = await Task.findByPk(req.params.id);
 
   if (!task) {
