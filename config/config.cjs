@@ -1,5 +1,7 @@
+
 require('dotenv').config();
 // Load environment variables from .env file
+
 module.exports = {
   development: {
     username: process.env.DB_USER,
@@ -7,5 +9,16 @@ module.exports = {
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     dialect: 'postgres'
+  },
+
+  production: {
+    use_env_variable: 'DATABASE_URL',
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
   }
 };
