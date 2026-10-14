@@ -3,7 +3,7 @@ export async function fetchSampleUsers() {
     const response = await fetch("https://jsonplaceholder.typicode.com/users");
 
     const users = await response.json();
-
+// Map the users to only include id, name, and email
     return users.map(user => ({
       id: user.id,
       name: user.name,

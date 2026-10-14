@@ -1,29 +1,23 @@
-import express from "express";
 import db from "../models/index.cjs";
 
 const { Task, User } = db;
 
-const router = express.Router();
-
-// GET all tasks
-router.get("/tasks", async (req, res) => {
+export async function getTasks(req, res) {
   const tasks = await Task.findAll({
     include: User,
     order: [["id", "ASC"]]
   });
 
   res.json(tasks);
-});
+}
 
-// POST task
-router.post("/tasks", async (req, res) => {
+export async function createTask(req, res) {
   const task = await Task.create(req.body);
 
   res.status(201).json(task);
-});
+}
 
-// GET one task
-router.get("/tasks/:id", async (req, res) => {
+export async function getTaskById(req, res) {
   const task = await Task.findByPk(req.params.id, {
     include: User
   });
@@ -35,10 +29,9 @@ router.get("/tasks/:id", async (req, res) => {
   }
 
   res.json(task);
-});
+}
 
-// PUT task
-router.put("/tasks/:id", async (req, res) => {
+export async function updateTask(req, res) {
   const task = await Task.findByPk(req.params.id);
 
   if (!task) {
@@ -50,10 +43,9 @@ router.put("/tasks/:id", async (req, res) => {
   await task.update(req.body);
 
   res.json(task);
-});
+}
 
-// DELETE task
-router.delete("/tasks/:id", async (req, res) => {
+export async function deleteTask(req, res) {
   const task = await Task.findByPk(req.params.id);
 
   if (!task) {
@@ -68,16 +60,13 @@ router.delete("/tasks/:id", async (req, res) => {
     message: "Deleted",
     task
   });
-});
+}
 
-// GET users
-router.get("/users", async (req, res) => {
+export async function getUsers(req, res) {
   const users = await User.findAll({
     include: Task,
     order: [["id", "ASC"]]
   });
 
   res.json(users);
-});
-
-export default router;
+}
